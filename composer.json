@@ -1,0 +1,12 @@
+{
+    "name": "christophe/mon-ecommerce",
+    "authors": [
+        {
+            "name": "Christophe Le Goff",
+            "email": "contact@christophe-le-goff.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
