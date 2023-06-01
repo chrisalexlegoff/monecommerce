@@ -9,9 +9,9 @@ require('./inc/haut.inc.php');
 
 <p>Coincée entre le haut et le bas!</p>
 <?php
-// Récupérer la valeur de la variable
-// echo getenv('NOM_VARIABLE');
-// echo '<br>ou<br>';
-// echo $_ENV['NOM_VARIABLE'];
-// echo $_ENV['TEST'] . "\n";
+Récupérer la valeur de la variable
+echo getenv('NOM_VARIABLE');
+echo '<br>ou<br>';
+echo $_ENV['NOM_VARIABLE'];
+echo $_ENV['TEST'] . "\n";
 require('./inc/bas.inc.php');

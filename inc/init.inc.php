@@ -12,8 +12,9 @@ if ($mysqli->connect_error) die('Un problème est survenu lors de la tentative d
 session_name("monecommerceID");
 session_start();
 //--------- CHEMIN
-define("RACINE_SITE", "http://" . $_SERVER['HTTP_HOST'] . "/");
-// define("RACINE_SITE", "http://" . $_SERVER['SERVER_NAME'] . ":" . $_SERVER['SERVER_PORT'] . "/");
+// define("RACINE_SITE", "http://" . $_SERVER['HTTP_HOST'] . "/");
+define("RACINE_SITE", "http://" . $_SERVER['SERVER_NAME'] . ":" . $_SERVER['SERVER_PORT'] . "/");
+////
 
 //--------- VARIABLES
 // $contenu = '';
