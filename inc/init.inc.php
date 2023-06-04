@@ -17,7 +17,7 @@ define("RACINE_SITE", "http://" . $_SERVER['SERVER_NAME'] . ":" . $_SERVER['SERV
 ////
 
 //--------- VARIABLES
-// $contenu = '';
+$contenu = '';
 
 //--------- AUTRES INCLUSIONS
 require_once("functions.inc.php");
