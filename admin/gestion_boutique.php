@@ -18,17 +18,44 @@ if (!empty($_POST)) {   // debug($_POST);
     foreach ($_POST as $indice => $valeur) {
         $_POST[$indice] = htmlEntities(addSlashes($valeur));
     }
-
-
     executeRequete("INSERT INTO produit (reference, categorie, titre, description, couleur, taille, public, photo, prix, stock) values ('$_POST[reference]', '$_POST[categorie]', '$_POST[titre]', '$_POST[description]', '$_POST[couleur]', '$_POST[taille]', '$_POST[public]',  '$photo_bdd',  '$_POST[prix]',  '$_POST[stock]')");
-
-
     $contenu .= '<div class="validation">Le produit a été ajouté</div>';
+}
+//--- LIENS PRODUITS ---//
+$contenu .= '<a href="?action=affichage">Affichage des produits</a><br>';
+$contenu .= '<a href="?action=ajout">Ajout d\'un produit</a><br><br><hr><br>';
+//--- AFFICHAGE PRODUITS ---//
+if (isset($_GET['action']) && $_GET['action'] == "affichage") {
+    $resultat = executeRequete("SELECT * FROM produit");
+    $contenu .= '<h2> Affichage des Produits </h2>';
+    $contenu .= 'Nombre de produit(s) dans la boutique : ' . $resultat->num_rows;
+    $contenu .= '<table border="1"><tr>';
+    while ($colonne = $resultat->fetch_field()) {
+        $contenu .= '<th>' . $colonne->name . '</th>';
+    }
+    $contenu .= '<th>Modification</th>';
+    $contenu .= '<th>Supression</th>';
+    $contenu .= '</tr>';
+    while ($ligne = $resultat->fetch_assoc()) {
+        $contenu .= '<tr>';
+        foreach ($ligne as $indice => $information) {
+            if ($indice == "photo") {
+                $contenu .= '<td><img src="' . $information . '" ="70" height="70"></td>';
+            } else {
+                $contenu .= '<td>' . $information . '</td>';
+            }
+        }
+        $contenu .= '<td><a href="?action=modification&id_produit=' . $ligne['id_produit'] . '"><img src="../inc/assets/icons/edit.png"></a></td>';
+        $contenu .= '<td><a href="?action=suppression&id_produit=' . $ligne['id_produit'] . '" OnClick="return(confirm(\'En êtes vous certain ?\'));"><img src="../inc/assets/icons/delete.png"></a></td>';
+        $contenu .= '</tr>';
+    }
+    $contenu .= '</table><br><hr><br>';
 }
 //--------------------------------- AFFICHAGE HTML ---------------------------------//
 require_once("../inc/haut.inc.php");
 echo $contenu;
-?>
+if (isset($_GET['action']) && ($_GET['action'] == 'ajout')) {
+    echo '
 <h1> Formulaire Produits </h1>
 <form method="post" enctype="multipart/form-data" action="">
     <label for="reference">reference</label><br>
@@ -59,4 +86,6 @@ echo $contenu;
     <input type="text" id="stock" name="stock" placeholder="le stock du produit"><br><br>
     <input type="submit" value="enregistrement du produit">
 </form>
-<?php require_once("../inc/bas.inc.php"); ?>
+    ';
+}
+require_once("../inc/bas.inc.php");
