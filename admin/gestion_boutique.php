@@ -6,6 +6,19 @@ if (!internauteEstConnecteEtEstAdmin()) {
     header("location:../connexion.php");
     exit();
 }
+if (isset($_GET['action']) && $_GET['action'] == "suppression") {
+    $resultat = executeRequete("SELECT * FROM produit WHERE id_produit=$_GET[id_produit]");
+    $produit_a_supprimer = $resultat->fetch_assoc();
+    $resultat_delete_produit = executeRequete("DELETE FROM produit WHERE id_produit=$_GET[id_produit]");
+    if (!$resultat_delete_produit) {
+        $chemin_photo_a_supprimer = str_replace(RACINE_SITE, "../", "$produit_a_supprimer[photo]");
+        if (!empty($produit_a_supprimer['photo']) && file_exists($chemin_photo_a_supprimer)) unlink($chemin_photo_a_supprimer);
+        $contenu .= '<div class="validation">Suppression du produit : ' . $_GET['id_produit'] . '</div>';
+        $_GET['action'] = 'affichage';
+    } else {
+        $contenu .= '<div class="erreur">Suppression du produit : ' . $_GET['id_produit'] . 'Impossible => commande en cours ...</div>';
+    }
+}
 //--- ENREGISTREMENT PRODUIT ---//
 if (!empty($_POST)) {   // debug($_POST);
     $photo_bdd = "";
