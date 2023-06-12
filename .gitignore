@@ -3,3 +3,6 @@
 
 # Dépendances
 /vendor/
+/node_modules/
+
+
