@@ -9,16 +9,20 @@ if (!internauteEstConnecteEtEstAdmin()) {
 if (isset($_GET['action']) && $_GET['action'] == "suppression") {
     $resultat = executeRequete("SELECT * FROM produit WHERE id_produit=$_GET[id_produit]");
     $produit_a_supprimer = $resultat->fetch_assoc();
-    $resultat_delete_produit = executeRequete("DELETE FROM produit WHERE id_produit=$_GET[id_produit]");
-    if ($resultat_delete_produit->getCode() != 1451) {
-        $chemin_photo_a_supprimer = str_replace(RACINE_SITE, "../", "$produit_a_supprimer[photo]");
-        if (!empty($produit_a_supprimer['photo']) && file_exists($chemin_photo_a_supprimer)) unlink($chemin_photo_a_supprimer);
-        $contenu .= '<div class="validation">Suppression du produit : ' . $_GET['id_produit'] . '</div>';
+    $resultat_commande = executeRequete("SELECT COUNT(*) AS nb_commandes FROM details_commande WHERE id_produit=$_GET[id_produit]");
+    $donnees_commande = $resultat_commande->fetch_assoc();
+    $nb_commandes = $donnees_commande['nb_commandes'];
+    if ($nb_commandes > 0) {
+        $contenu .= '<div class="erreur">La suppression du produit : ' . $_GET['id_produit'] .
+            ' est impossible => commande en cours ...</div>';
         $_GET['action'] = 'affichage';
     } else {
-        $contenu .= '<div class="erreur">Suppression du produit : ' . $_GET['id_produit'] . 'Impossible => commande en cours ...</div>';
+        $chemin_photo_a_supprimer = str_replace(RACINE_SITE, "../", "$produit_a_supprimer[photo]");
+        if (!empty($produit_a_supprimer['photo']) && file_exists($chemin_photo_a_supprimer))
+            unlink($chemin_photo_a_supprimer);
+        executeRequete("DELETE FROM produit WHERE id_produit=$_GET[id_produit]");
+        $contenu .= '<div class="validation">Suppression du produit : ' . $_GET['id_produit'] . '</div>';
         $_GET['action'] = 'affichage';
-        // header('location:' . RACINE_SITE .  'admin/gestion_boutique.php/?action=affichage"');
     }
 }
 //--- ENREGISTREMENT PRODUIT ---//

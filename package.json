@@ -1,0 +1,22 @@
+{
+  "name": "monecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.php",
+  "scripts": {
+    "sass": "sass --watch --style compressed ./inc/sass/main.scss:./public/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisalexlegoff/monecommerce.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrisalexlegoff/monecommerce/issues"
+  },
+  "homepage": "https://github.com/chrisalexlegoff/monecommerce#readme",
+  "devDependencies": {
+    "sass": "^1.63.3"
+  }
+}
