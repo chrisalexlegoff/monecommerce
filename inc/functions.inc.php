@@ -1,13 +1,4 @@
 <?php
-// function executeRequete($req)
-// {
-//     global $mysqli;
-//     $resultat = $mysqli->query($req);
-//     if (!$resultat) {
-//         die("Erreur sur la requete sql.<br>Message : " . $mysqli->error . "<br>Code: " . $req);
-//     }
-//     return $resultat;
-// }
 function executeRequete($req)
 {
     global $mysqli;
@@ -49,4 +40,29 @@ function internauteEstConnecteEtEstAdmin()
 {
     if (internauteEstConnecte() && $_SESSION['utilisateur']['statut'] == 1) return true;
     else return false;
+}
+//------------------------------------
+function creationDuPanier()
+{
+    if (!isset($_SESSION['panier'])) {
+        $_SESSION['panier'] = array();
+        $_SESSION['panier']['titre'] = array();
+        $_SESSION['panier']['id_produit'] = array();
+        $_SESSION['panier']['quantite'] = array();
+        $_SESSION['panier']['prix'] = array();
+    }
+}
+//------------------------------------
+function ajouterProduitDansPanier($titre, $id_produit, $quantite, $prix)
+{
+    creationDuPanier();
+    $position_produit = array_search($id_produit,  $_SESSION['panier']['id_produit']);
+    if ($position_produit !== false) {
+        $_SESSION['panier']['quantite'][$position_produit] += $quantite;
+    } else {
+        $_SESSION['panier']['titre'][] = $titre;
+        $_SESSION['panier']['id_produit'][] = $id_produit;
+        $_SESSION['panier']['quantite'][] = $quantite;
+        $_SESSION['panier']['prix'][] = $prix;
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 require_once("inc/init.inc.php");
+$title = " | Boutique";
 //--------------------------------- TRAITEMENTS PHP ---------------------------------//
 //--- AFFICHAGE DES CATEGORIES ---//
 $categories_des_produits = executeRequete("SELECT DISTINCT categorie FROM produit");
