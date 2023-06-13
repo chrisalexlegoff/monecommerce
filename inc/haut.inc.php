@@ -2,16 +2,16 @@
 <html>
 
 <head>
-    <title>Mon Site</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo RACINE_SITE ?>public/css/style.css">
     <script src="<?php echo RACINE_SITE ?>inc/js/main.js"></script>
+    <title>Mon Site<?php echo htmlspecialchars($title); ?></title>
 </head>
 
 <body>
     <header>
         <div class="conteneur">
-            <nav class="topnav" id="myTopnav"><a href="" title="Mon Site">MonSite.com</a>
+            <nav class="topnav" id="myTopnav"><a href="/" title="Mon Site">MonSite.com</a>
                 <?php
                 if (internauteEstConnecteEtEstAdmin()) {
                     echo '<a href="' . RACINE_SITE . 'admin/gestion_membre.php">Gestion des membres</a>';

@@ -1,5 +1,6 @@
 <?php
 require_once("../inc/init.inc.php");
+$title = " | Gestion boutique";
 //--------------------------------- TRAITEMENTS PHP ---------------------------------//
 //--- VERIFICATION ADMIN ---//
 if (!internauteEstConnecteEtEstAdmin()) {
@@ -106,21 +107,20 @@ if (isset($_GET['action']) && ($_GET['action'] == 'ajout' || $_GET['action'] == 
     <label for="couleur">couleur</label><br>
     <input type="text" id="couleur" name="couleur" placeholder="la couleur du produit"  value="';
     if (isset($produit_actuel['couleur'])) echo $produit_actuel['couleur'];
-    echo '"> <br><br>
+    echo '"> <br><br>"';
+    echo '
     <label for="taille">Taille</label><br>
     <select name="taille">
-    <option value="S"';
-    if (isset($produit_actuel) && $produit_actuel['taille'] == 'S') echo ' selected ';
-    echo '>S</option>
-    <option value="M"';
-    if (isset($produit_actuel) && $produit_actuel['taille'] == 'M') echo ' selected ';
-    echo '>M</option>
-    <option value="L"';
-    if (isset($produit_actuel) && $produit_actuel['taille'] == 'L') echo ' selected ';
-    echo '>L</option>
-    <option value="XL"';
-    if (isset($produit_actuel) && $produit_actuel['taille'] == 'XL') echo ' selected ';
-    echo '>XL</option>
+    ';
+    $options = ["S", "M", "L", "XL"];
+    foreach ($options as $taille) {
+        echo '<option value="' . $taille . '"';
+        if (isset($produit_actuel) && $produit_actuel['taille'] == $taille) {
+            echo ' selected';
+        }
+        echo '>' . $taille . '</option>';
+    }
+    echo '
     </select><br><br>
     <label for="public">public</label><br>
     <input type="radio" name="public" value="m"';
@@ -130,11 +130,11 @@ if (isset($_GET['action']) && ($_GET['action'] == 'ajout' || $_GET['action'] == 
         <input type="radio" name="public" value="f"';
     if (isset($produit_actuel) && $produit_actuel['public'] == 'f') echo ' checked ';
     echo '>Femme<br><br>
-    <label for="photo">photo</label><br>
-    <input type="file" id="photo" name="photo"><br><br>';
+    <label for="photo">Photo</label><br>
+    <input type="file" id="photo" name="photo" onchange="previewImage()"><br><br>';
     if (isset($produit_actuel)) {
-        echo '<i>Vous pouvez uplaoder une nouvelle photo si vous souhaitez la changer</i><br>';
-        echo '<img src="' . $produit_actuel['photo'] . '"  ="90" height="90"><br>';
+        echo '<i>Vous pouvez uploader une nouvelle photo si vous souhaitez la changer</i><br>';
+        echo '<img id="preview" src="' . $produit_actuel['photo'] . '"><br>';
         echo '<input type="hidden" name="photo_actuelle" value="' . $produit_actuel['photo'] . '"><br>';
     }
     echo '
